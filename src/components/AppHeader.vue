@@ -17,14 +17,10 @@ export default {
     }},
     methods:{
         setTitle(text){
-            //console.log(text)
             this.myMovie = text;
             console.log(this.myMovie)
             this.$emit('enterTitle', this.myMovie)
         }
-        // emitto(){
-            
-        // }
     }
 }
 </script>
@@ -34,6 +30,7 @@ export default {
 
     header{
         padding: $section-pad;
+        background-color: $bg-header;
         @include flex-row-between;
         h1{
             color: red;

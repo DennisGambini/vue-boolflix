@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <!-- header -->
-      <app-header @enterTitle="consollo" />
+      <app-header @enterTitle="giveText" />
 
       <!-- main -->
       <main>
@@ -24,7 +24,7 @@ export default {
     writtenText: ''
   }},
   methods:{
-    consollo(text){
+    giveText(text){
       console.log('arrivato! ', text)
       this.writtenText = text;
       
