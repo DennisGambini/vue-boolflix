@@ -1,0 +1,14 @@
+// COLORI
+$bg-body: #484848;
+
+// SIZING
+$section-pad: 20px;
+
+// MIXINS
+
+@mixin flex-row-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
