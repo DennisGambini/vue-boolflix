@@ -1,5 +1,6 @@
 // COLORI
 $bg-body: #484848;
+$bg-card: red;
 
 // SIZING
 $section-pad: 20px;
@@ -9,6 +10,12 @@ $section-pad: 20px;
 @mixin flex-row-between {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+@mixin flex-column-between {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }

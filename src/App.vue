@@ -1,11 +1,11 @@
 <template>
   <div id="app">
       <!-- header -->
-      <app-header/>
+      <app-header @enterTitle="consollo" />
 
       <!-- main -->
       <main>
-          <main-grid/>
+          <main-grid :writtenText="writtenText"/>
       </main>
   </div>
 </template>
@@ -19,6 +19,16 @@ export default {
   components: {
     AppHeader,
     MainGrid
+  },
+  data(){return{
+    writtenText: ''
+  }},
+  methods:{
+    consollo(text){
+      console.log('arrivato! ', text)
+      this.writtenText = text;
+      
+    }
   }
 }
 </script>

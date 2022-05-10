@@ -1,15 +1,31 @@
 <template>
   <header>
         <h1>boolflix</h1>
-        <app-search/>
+        <app-search @enterTitle="setTitle" />
   </header>
 </template>
 
 <script>
 import AppSearch from './AppSearch.vue'
 export default {
-  components: { AppSearch },
-    name: 'AppHeader'
+    name: 'AppHeader',
+    components: { 
+        AppSearch 
+    },
+    data(){return{
+        myMovie:''
+    }},
+    methods:{
+        setTitle(text){
+            //console.log(text)
+            this.myMovie = text;
+            console.log(this.myMovie)
+            this.$emit('enterTitle', this.myMovie)
+        }
+        // emitto(){
+            
+        // }
+    }
 }
 </script>
 

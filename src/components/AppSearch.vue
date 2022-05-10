@@ -1,12 +1,18 @@
 <template>
   <div>
-      <input type="search" name="app-search" id="app-search">
+      <input type="search" name="app-search" id="app-search" v-model="movieText" @keyup.enter="$emit('enterTitle', movieText)">
   </div>
 </template>
 
 <script>
 export default {
-    name: 'AppSearch'
+    name: 'AppSearch',
+    data(){return{
+        movieText: ''
+    }},
+    methods:{
+        
+    }
 }
 </script>
 
