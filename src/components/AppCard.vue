@@ -5,10 +5,20 @@
             :alt="card.original_title + ' poster'">
 
         <div class="description">
-            <div class="title"><span>Titolo: </span>{{titleProp}}</div>
+            <div class="title">
+                <span>Titolo: </span>
+                {{titleProp}}
+            </div>
             <div>
-                <div class="overview"><span>Overview: </span>{{breakOverview(card.overview) + '...'}}</div>
-                <div class="original_title"><span>Titolo originale: </span>{{originalTitleProp}}</div>
+                <div class="overview" :title="card.overview">
+                    <span>Overview: </span>
+                    {{card.overview === "" ? 'Sorry! Not available' : breakOverview(card.overview) + '...'}}
+                    <i v-if="card.overview === '' " class="fa-solid fa-face-sad-cry"></i>
+                </div>
+                <div class="original_title" v-if="necessary">
+                    <span>Titolo originale: </span>
+                    {{originalTitleProp}}
+                </div>
                 <div class="language">
                     <span>Lingua originale: </span>
                     {{card.original_language}}
@@ -37,7 +47,8 @@ export default {
         card: Object,
         imgUrl: String,
         titleProp: String,
-        originalTitleProp: String
+        originalTitleProp: String,
+        necessary: Boolean
     },
     methods:{
         breakOverview(text){
@@ -94,6 +105,11 @@ export default {
             padding: 20px;
             span{
                 color: red;
+            }
+            .overview{
+                i{
+                    color: $star-color;
+                }
             }
             .language{
                 img{

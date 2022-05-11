@@ -7,7 +7,8 @@
             :card="card" 
             :imgUrl="imgUrl" 
             :titleProp="card.title" 
-            :originalTitleProp="card.original_title"/>
+            :originalTitleProp="card.original_title"
+            :necessary="checkTitles(card.title, card.original_title)"/>
         </div>
 
         <h2>Serie TV</h2>
@@ -17,7 +18,8 @@
             :card="card" 
             :imgUrl="imgUrl" 
             :titleProp="card.name" 
-            :originalTitleProp="card.original_name"/>
+            :originalTitleProp="card.original_name"
+            :necessary="checkTitles(card.name, card.original_name)"/>
         </div>
       
     </section>
@@ -70,6 +72,9 @@ export default {
             .catch((err) => {
             console.log(err);
             })
+        },
+        checkTitles(a, b){
+            return a === b ? false : true;
         }
         
     },
