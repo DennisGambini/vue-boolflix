@@ -15,7 +15,15 @@
                     <img :src="'https://countryflagsapi.com/png/' + `${card.original_language === 'en' ? 'gb' : card.original_language}`" :alt="card.original_language + ' flag'"/>
                     </div>
             </div>
-            <div class="vote"><span>Voto: </span>{{card.vote_average}}</div>
+            <div class="vote">
+                <span>Voto: </span>
+                {{card.vote_average}}
+                <i v-if="manipulateVote(card.vote_average) >= 1" class="fa-solid fa-star-of-david"></i>
+                <i v-if="manipulateVote(card.vote_average) >= 2" class="fa-solid fa-star-of-david"></i>
+                <i v-if="manipulateVote(card.vote_average) >= 3" class="fa-solid fa-star-of-david"></i>
+                <i v-if="manipulateVote(card.vote_average) >= 4" class="fa-solid fa-star-of-david"></i>
+                <i v-if="manipulateVote(card.vote_average) >= 5" class="fa-solid fa-star-of-david"></i>
+            </div>
         </div>
 
 
@@ -34,8 +42,22 @@ export default {
     methods:{
         breakOverview(text){
             const array = text.split("", 200);
-            const newWord = array.join('')
-            return newWord
+            const newWord = array.join('');
+            return newWord;
+        },
+        manipulateVote(vote){
+            let splitNumber;
+            if(vote % 2 === 0){
+                splitNumber = (vote / 2) + 1;
+                return splitNumber;
+            } else {
+                vote = vote / 2;
+                let newVote = vote.toString()
+                if(newVote.length !== 1){
+                    splitNumber = parseInt(newVote.split('', 1)) + 1
+                }
+                return splitNumber;
+            }
         }
     }
 }
@@ -76,6 +98,11 @@ export default {
             .language{
                 img{
                     @include flag-size
+                }
+            }
+            .vote{
+                i{
+                    color: $star-color;
                 }
             }
         }
