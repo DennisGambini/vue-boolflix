@@ -5,11 +5,15 @@
             :alt="card.original_title + ' poster'">
 
         <div class="description">
-            <div class="title"><span>Titolo: </span>{{card.title}}</div>
+            <div class="title"><span>Titolo: </span>{{titleProp}}</div>
             <div>
                 <div class="overview"><span>Overview: </span>{{breakOverview(card.overview) + '...'}}</div>
-                <div class="original_title"><span>Titolo originale: </span>{{card.original_title}}</div>
-                <div class="language"><span>Lingua originale: </span>{{card.original_language}}</div>
+                <div class="original_title"><span>Titolo originale: </span>{{originalTitleProp}}</div>
+                <div class="language">
+                    <span>Lingua originale: </span>
+                    {{card.original_language}}
+                    <img :src="'https://countryflagsapi.com/png/' + `${card.original_language === 'en' ? 'gb' : card.original_language}`" :alt="card.original_language + ' flag'"/>
+                    </div>
             </div>
             <div class="vote"><span>Voto: </span>{{card.vote_average}}</div>
         </div>
@@ -23,7 +27,9 @@ export default {
     name: 'AppCard',
     props:{
         card: Object,
-        imgUrl: String
+        imgUrl: String,
+        titleProp: String,
+        originalTitleProp: String
     },
     methods:{
         breakOverview(text){
@@ -66,6 +72,11 @@ export default {
             padding: 20px;
             span{
                 color: red;
+            }
+            .language{
+                img{
+                    @include flag-size
+                }
             }
         }
         &:hover{

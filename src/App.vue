@@ -7,18 +7,22 @@
       <main>
           <main-grid :writtenText="writtenText"/>
       </main>
+
+      <!-- <app-footer/> -->
   </div>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader.vue' 
 import MainGrid from './components/MainGrid.vue'
+//import AppFooter from './components/AppFooter.vue'
 
 export default {
   name: 'App',
   components: {
     AppHeader,
     MainGrid
+    //AppFooter
   },
   data(){return{
     writtenText: ''

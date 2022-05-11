@@ -1,8 +1,9 @@
 <template>
   <div>
       <input type="search" name="app-search" id="app-search" placeholder="..." v-model="movieText" @keyup.enter="$emit('enterTitle', movieText)">
-      <button @click="$emit('enterTitle', movieText)">Cerca</button>
-      <!-- <i class="fa-solid fa-heart"></i> -->
+      <button @click="$emit('enterTitle', movieText)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
   </div>
 </template>
 

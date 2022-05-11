@@ -1,11 +1,26 @@
 <template>
-  <section>
+    <section>
+        <h2>Film</h2>
+        <div v-if="writtenText" class="wrapper">
+            <app-card class="card" v-for="(card, index) in movieCards" 
+            :key="index" 
+            :card="card" 
+            :imgUrl="imgUrl" 
+            :titleProp="card.title" 
+            :originalTitleProp="card.original_title"/>
+        </div>
 
-    <div v-if="writtenText" class="wrapper">
-        <app-card  v-for="(card, index) in cards" :key="index" class="card" :card="card" :imgUrl="imgUrl"/>
-    </div>
+        <h2>Serie TV</h2>
+        <div v-if="writtenText" class="wrapper">
+            <app-card class="card" v-for="(card, index) in seriesCards" 
+            :key="index" 
+            :card="card" 
+            :imgUrl="imgUrl" 
+            :titleProp="card.name" 
+            :originalTitleProp="card.original_name"/>
+        </div>
       
-  </section>
+    </section>
 </template>
 
 <script>
@@ -21,35 +36,47 @@ export default {
     },
     data(){
         return{
-            //movie: {},
             apiUrl: 'https://api.themoviedb.org/3',
             imgUrl:'https://image.tmdb.org/t/p',
             myApiKey: '2ef36b734d4be91dd7af56b7d0142468',
             myQuery: '',
-            cards:[]
+            movieCards:[],
+            seriesCards:[]
         }
     },
     methods:{
-        callApi(){
-            if(this.myQuery !== this.writtenText){
-                this.myQuery = this.writtenText;
-                axios.get(`${this.apiUrl}/search/movie/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
-                .then((res) => {
-                //console.log(res.data.results[0]);
-                //this.movie = {...res.data.results[0]};
-                console.log(res.data.results)
-                this.cards = [...res.data.results]
-                })
-                .catch((err) => {
-                console.log(err);
-                })
-            }
-            
+        callBothApi(){
+            this.callApiMovie();
+            this.callApiSeries();
+        },
+        callApiMovie(){
+            this.myQuery = this.writtenText;
+            axios.get(`${this.apiUrl}/search/movie/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
+            .then((res) => {
+            console.log(res.data.results)
+            this.movieCards = [...res.data.results]
+            })
+            .catch((err) => {
+            console.log(err);
+            })         
+        },
+        callApiSeries(){
+            this.myQuery = this.writtenText;
+            axios.get(`${this.apiUrl}/search/tv/?api_key=${this.myApiKey}&query=${this.myQuery}`)
+            .then((res) => {
+            console.log(res.data.results)
+            this.seriesCards = [...res.data.results]
+            })
+            .catch((err) => {
+            console.log(err);
+            })
         }
         
     },
     updated(){
-        this.callApi()
+        if(this.myQuery !== this.writtenText){
+            this.callBothApi()
+        }
     },
 }
 </script>
