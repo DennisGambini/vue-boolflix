@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h2>Film</h2>
+        <h2 v-if="writtenText">Film</h2>
         <div v-if="writtenText" class="wrapper">
             <app-card class="card" v-for="(card, index) in movieCards" 
             :key="index" 
@@ -11,7 +11,7 @@
             :necessary="checkTitles(card.title, card.original_title)"/>
         </div>
 
-        <h2>Serie TV</h2>
+        <h2 v-if="writtenText">Serie TV</h2>
         <div v-if="writtenText" class="wrapper">
             <app-card class="card" v-for="(card, index) in seriesCards" 
             :key="index" 
@@ -95,5 +95,10 @@ export default {
         padding: 50px;
         justify-content: space-evenly;
         row-gap: 50px;
+    }
+    h2{
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
     }
 </style>

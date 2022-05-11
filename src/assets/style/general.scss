@@ -3,6 +3,7 @@ $fa-font-path: "@/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 
+// @import "@fontsource/bebas-neue";
 
 @import './vars.scss';
 
@@ -10,9 +11,10 @@ $fa-font-path: "@/webfonts";
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Bebas Neue";
 }
 
 body{
     background-color: $bg-body;
-
+    
 }

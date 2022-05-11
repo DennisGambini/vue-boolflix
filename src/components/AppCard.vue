@@ -20,7 +20,7 @@
                     {{originalTitleProp}}
                 </div>
                 <div class="language">
-                    <span>Lingua originale: </span>
+                    <span>Lingua originale: </span>    
                     {{card.original_language}}
                     <img :src="'https://countryflagsapi.com/png/' + `${card.original_language === 'en' ? 'gb' : card.original_language}`" :alt="card.original_language + ' flag'"/>
                     </div>
@@ -85,13 +85,18 @@ export default {
         padding: 10px;
         color: white;
         background-color: $bg-card;
-        border-radius: 10px;
+        border-radius: $card-radius;
         overflow: hidden;
-        overflow-y: auto;
         position: relative;
         box-shadow: 2px 2px 4px $bg-header;
-        img{
-            height: 290px;
+        font-size: $card-font-size;
+        > img{
+            // height: 290px;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: $card-radius;
         }
         .description{
             display: none;
@@ -101,10 +106,11 @@ export default {
             left: 0;
             bottom: 0;
             right: 0;
-            background: rgba($color: $bg-header, $alpha: 0.8);
+            background: rgba($color: $bg-header, $alpha: 0.95);
             padding: 20px;
             span{
                 color: red;
+                text-transform: uppercase;
             }
             .overview{
                 i{
@@ -113,6 +119,7 @@ export default {
             }
             .language{
                 img{
+                    vertical-align: middle;
                     @include flag-size
                 }
             }

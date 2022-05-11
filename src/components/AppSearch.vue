@@ -1,6 +1,6 @@
 <template>
   <div>
-      <input type="search" name="app-search" id="app-search" placeholder="..." v-model="movieText" @keyup.enter="$emit('enterTitle', movieText)">
+      <input type="search" name="app-search" id="app-search" placeholder="Cerca un titolo..." v-model="movieText" @keyup.enter="$emit('enterTitle', movieText)">
       <button @click="$emit('enterTitle', movieText)">
           <i class="fa-solid fa-magnifying-glass"></i>
       </button>
