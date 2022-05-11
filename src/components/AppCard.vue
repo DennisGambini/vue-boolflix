@@ -50,6 +50,7 @@ export default {
         overflow: hidden;
         overflow-y: auto;
         position: relative;
+        box-shadow: 2px 2px 4px $bg-header;
         img{
             height: 290px;
         }
@@ -61,7 +62,7 @@ export default {
             left: 0;
             bottom: 0;
             right: 0;
-            background: rgba($color: #000000, $alpha: 0.8);
+            background: rgba($color: $bg-header, $alpha: 0.8);
             padding: 20px;
             span{
                 color: red;
