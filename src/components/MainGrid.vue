@@ -1,7 +1,9 @@
 <template>
     <section>
-        <h2 v-if="writtenText">{{movies}}</h2>
-        <div v-if="writtenText" class="wrapper">
+        <app-loader class="loader" v-if="loading" />
+
+        <h2 v-if="writtenText && !loading">{{movies}}</h2>
+        <div v-if="writtenText && !loading" class="wrapper">
             <app-card class="card" v-for="(card, index) in movieCards" 
             :key="index" 
             :card="card" 
@@ -11,8 +13,8 @@
             :necessary="checkTitles(card.title, card.original_title)"/>
         </div>
 
-        <h2 v-if="writtenText">{{series}}</h2>
-        <div v-if="writtenText" class="wrapper">
+        <h2 v-if="writtenText && !loading">{{series}}</h2>
+        <div v-if="writtenText && !loading" class="wrapper">
             <app-card class="card" v-for="(card, index) in seriesCards" 
             :key="index" 
             :card="card" 
@@ -29,9 +31,10 @@
 <script>
 import axios from 'axios'
 import AppCard from './AppCard.vue';
+import AppLoader from './AppLoader.vue';
 
 export default {
-  components: { AppCard },
+  components: { AppCard, AppLoader },
 
     name: 'MainGrid',
     props:{
@@ -48,7 +51,8 @@ export default {
             myApiKey: '2ef36b734d4be91dd7af56b7d0142468',
             myQuery: '',
             movieCards:[],
-            seriesCards:[]
+            seriesCards:[],
+            loading: false
         }
     },
     methods:{
@@ -57,6 +61,7 @@ export default {
             this.callApiSeries();
         },
         callApiMovie(){
+            // this.loading = true;
             this.myQuery = this.writtenText;
             axios.get(`${this.apiUrl}/search/movie/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
             .then((res) => {
@@ -66,6 +71,7 @@ export default {
             if(this.movieCards.length > this.previewNumber){
                 this.movieCards.splice(this.previewNumber)
             }
+            this.loading = false;
             })
             .catch((err) => {
             console.log(err);
@@ -81,6 +87,7 @@ export default {
             if(this.seriesCards.length > this.previewNumber){
                 this.seriesCards.splice(this.previewNumber)
             }
+            this.loading = false;
             })
             .catch((err) => {
             console.log(err);
@@ -93,12 +100,16 @@ export default {
     },
     updated(){
         if(this.myQuery !== this.writtenText){
-            this.callBothApi()
+            this.loading = true;
+            setTimeout(this.callBothApi, 1500)
+            // this.callBothApi()
         }
     },
     mounted(){
         if(this.myDefault){
-            this.callBothApi()
+            this.loading = true;
+            setTimeout(this.callBothApi, 1500)
+            // this.callBothApi()
         }
     }
 }
@@ -119,4 +130,5 @@ export default {
         color: white;
         text-transform: uppercase;
     }
+    
 </style>

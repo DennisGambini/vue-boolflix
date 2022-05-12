@@ -6,7 +6,6 @@
       <!-- main -->
       <main>
           <!-- landing -->
-          <!-- :writtenText="myDefault" -->
           <main-grid 
           v-if="writtenText ==='' " 
           :myDefault="defaultSearch"
