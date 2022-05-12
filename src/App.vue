@@ -5,33 +5,46 @@
 
       <!-- main -->
       <main>
-          <main-grid :writtenText="writtenText"/>
+          <!-- landing -->
+          <!-- :writtenText="myDefault" -->
+          <main-grid 
+          v-if="writtenText ==='' " 
+          :myDefault="defaultSearch"
+          :writtenText="defaultSearch"
+          :movies="'I film più ricercati'" 
+          :series="'Le serie più viste'"
+          :previewNumber="5"
+          />
+          <!-- ricerca utente -->
+          <main-grid 
+          v-else 
+          :writtenText="writtenText"
+          :movies="'Film trovati'" 
+          :series="'Serie TV trovate'"
+          :previewNumber="10"
+          />
       </main>
 
-      <!-- <app-footer/> -->
   </div>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader.vue' 
 import MainGrid from './components/MainGrid.vue'
-//import AppFooter from './components/AppFooter.vue'
 
 export default {
   name: 'App',
   components: {
     AppHeader,
     MainGrid
-    //AppFooter
   },
   data(){return{
-    writtenText: ''
+    writtenText: '',
+    defaultSearch: 'harry'
   }},
   methods:{
     giveText(text){
-      console.log('arrivato! ', text)
       this.writtenText = text;
-      
     }
   }
 }

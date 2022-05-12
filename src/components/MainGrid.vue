@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h2 v-if="writtenText">Film</h2>
+        <h2 v-if="writtenText">{{movies}}</h2>
         <div v-if="writtenText" class="wrapper">
             <app-card class="card" v-for="(card, index) in movieCards" 
             :key="index" 
@@ -11,7 +11,7 @@
             :necessary="checkTitles(card.title, card.original_title)"/>
         </div>
 
-        <h2 v-if="writtenText">Serie TV</h2>
+        <h2 v-if="writtenText">{{series}}</h2>
         <div v-if="writtenText" class="wrapper">
             <app-card class="card" v-for="(card, index) in seriesCards" 
             :key="index" 
@@ -21,6 +21,7 @@
             :originalTitleProp="card.original_name"
             :necessary="checkTitles(card.name, card.original_name)"/>
         </div>
+
       
     </section>
 </template>
@@ -34,7 +35,11 @@ export default {
 
     name: 'MainGrid',
     props:{
-        writtenText: String
+        writtenText: String,
+        myDefault: String,
+        movies: String,
+        series: String,
+        previewNumber: Number
     },
     data(){
         return{
@@ -57,6 +62,10 @@ export default {
             .then((res) => {
             console.log(res.data.results)
             this.movieCards = [...res.data.results]
+            // verifica prima di splittare
+            if(this.movieCards.length > this.previewNumber){
+                this.movieCards.splice(this.previewNumber)
+            }
             })
             .catch((err) => {
             console.log(err);
@@ -68,6 +77,10 @@ export default {
             .then((res) => {
             console.log(res.data.results)
             this.seriesCards = [...res.data.results]
+            // verifica prima di splittare
+            if(this.seriesCards.length > this.previewNumber){
+                this.seriesCards.splice(this.previewNumber)
+            }
             })
             .catch((err) => {
             console.log(err);
@@ -83,6 +96,11 @@ export default {
             this.callBothApi()
         }
     },
+    mounted(){
+        if(this.myDefault){
+            this.callBothApi()
+        }
+    }
 }
 </script>
 
