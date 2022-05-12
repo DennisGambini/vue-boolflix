@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <!-- header -->
-      <app-header @enterTitle="giveText" />
+      <app-header @enterTitle="giveText" class="header" />
 
       <!-- main -->
       <main>
@@ -53,7 +53,14 @@ export default {
 @import './assets/style/general.scss';
 @import './assets/style/vars.scss';
 
+.header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
 main{
+  margin-top: 81px;
   padding: $section-pad;
 }
 

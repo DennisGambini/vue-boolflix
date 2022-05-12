@@ -90,14 +90,16 @@ export default {
         gap: 20px;
         height: 350px;
         width: 250px;
-        padding: 10px;
-        color: white;
+        padding: 4px;
+        color: $text-color;
         background-color: $bg-card;
         border-radius: $card-radius;
         overflow: hidden;
         position: relative;
-        box-shadow: 2px 2px 4px $bg-header;
+        box-shadow: 4px 4px 4px $bg-header, -1px -1px 6px $bg-header;
         font-size: $card-font-size;
+        border: 4px solid $bg-card;
+        cursor: pointer;
         > img{
             height: 100%;
             width: 100%;
@@ -128,8 +130,9 @@ export default {
             right: 0;
             background: rgba($color: $bg-header, $alpha: 0.95);
             padding: 20px;
+            
             span{
-                color: red;
+                color: $title-color;
                 text-transform: uppercase;
             }
             .overview{
@@ -153,6 +156,7 @@ export default {
             }
         }
         &:hover{
+            border: 4px solid rgba($color: $text-color, $alpha: 0.7);
             .description{
                 @include flex-column-center;
             }
