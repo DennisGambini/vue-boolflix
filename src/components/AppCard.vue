@@ -79,6 +79,8 @@ export default {
             return lang === 'en' ? lang = 'gb' 
             : lang === 'ja' ? lang = 'jp' 
             : lang === 'da' ? lang = 'dk' 
+            : lang === 'zh' ? lang = 'hk' 
+            : lang === 'hi' ? lang = 'ht' 
             : lang
         }
     }

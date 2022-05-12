@@ -68,50 +68,48 @@ export default {
             movieCards:[],
             seriesCards:[],
             loading: false,
-            movieFounded: true,
-            seriesFounded: true
+        }
+    },
+    computed:{
+        movieFounded(){
+            let checker = this.movieCards.length === 0 ? false : true
+            return checker
+        },
+        seriesFounded(){
+            let checker = this.seriesCards.length === 0 ? false : true
+            return checker
         }
     },
     methods:{
         callBothApi(){
-            this.callApiMovie();
-            this.callApiSeries();
+            this.callApi('movie')
+            this.callApi('tv')
         },
-        callApiMovie(){
+        callApi(type){
             this.myQuery = this.writtenText;
-            axios.get(`${this.apiUrl}/search/movie/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
+            axios.get(`${this.apiUrl}/search/${type}/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
             .then((res) => {
             console.log(res.data.results)
-            this.movieCards = [...res.data.results]
-            if(this.movieCards.length > this.previewNumber){
-                this.movieCards.splice(this.previewNumber)
+            // controllo lunghezza
+            if(res.data.results.length > this.previewNumber){
+                res.data.results.splice(this.previewNumber)
             }
-            this.movieCards.length === 0 ? this.movieFounded = false : this.movieFounded = true;
+            // divido per tipo
+            switch (type){
+                case 'movie':
+                    this.movieCards = [...res.data.results];
+                    break;
+                default:
+                    this.seriesCards = [...res.data.results];
+                    break;
+            }
             setTimeout(()=>{
                 this.loading = false;
             }, 500)
             })
             .catch((err) => {
             console.log(err);
-            })         
-        },
-        callApiSeries(){
-            this.myQuery = this.writtenText;
-            axios.get(`${this.apiUrl}/search/tv/?api_key=${this.myApiKey}&query=${this.myQuery}`)
-            .then((res) => {
-            console.log(res.data.results)
-            this.seriesCards = [...res.data.results]
-            if(this.seriesCards.length > this.previewNumber){
-                this.seriesCards.splice(this.previewNumber)
-            }
-            this.seriesCards.length === 0 ? this.seriesFounded = false : this.seriesFounded = true;
-            setTimeout(()=>{
-                this.loading = false;
-            }, 500)
-            })
-            .catch((err) => {
-            console.log(err);
-            })
+            })   
         },
         checkTitles(a, b){
             return a === b ? false : true;
