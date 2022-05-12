@@ -1,7 +1,7 @@
 <template>
   <header>
         <h1>boolflix</h1>
-        <app-search @enterTitle="setTitle" />
+        <app-search @enterTitle="setTitle" @langChange="langChange"/>
   </header>
 </template>
 
@@ -13,13 +13,17 @@ export default {
         AppSearch 
     },
     data(){return{
-        myMovie:''
+        myMovie:'',
+        dioboia: ''
     }},
     methods:{
         setTitle(text){
+            console.log(text)
             this.myMovie = text;
-            console.log(this.myMovie)
             this.$emit('enterTitle', this.myMovie)
+        },
+        langChange(e){
+            this.$emit('langChange', e)
         }
     }
 }
@@ -34,7 +38,7 @@ export default {
         background: linear-gradient($bg-header 30%, $bg-body 90%);
         @include flex-row-between-center;
         h1{
-            color: red;
+            color: $title-color;
             text-transform: uppercase;
            
         }

@@ -1,5 +1,6 @@
 <template>
     <section>
+        
         <app-loader class="loader" v-if="loading" />
 
         <div role="checker" v-if="writtenText && !loading && movieFounded">
@@ -16,8 +17,8 @@
         </div>
         <div v-else-if="!loading" class="warning">
             <div>    
-                <h2>nessuna film trovato!</h2>
-                <p>riprova con un altra ricerca</p>
+                <h2>nessun film trovato!</h2>
+                <p>riprova con un' altra ricerca</p>
             </div>
         </div>
 
@@ -36,7 +37,7 @@
         <div v-else-if="!loading" class="warning">
             <div>
                 <h2>nessuna serie trovata!</h2>
-                <p>riprova con un altra ricerca</p>
+                <p>riprova con un' altra ricerca</p>
             </div>
         </div>
 
@@ -57,7 +58,7 @@ export default {
         myDefault: String,
         movies: String,
         series: String,
-        previewNumber: Number
+        previewNumber: Number,
     },
     data(){
         return{
@@ -68,6 +69,7 @@ export default {
             movieCards:[],
             seriesCards:[],
             loading: false,
+            actualLang: 'it-IT'
         }
     },
     computed:{
@@ -78,16 +80,23 @@ export default {
         seriesFounded(){
             let checker = this.seriesCards.length === 0 ? false : true
             return checker
-        }
+        },
     },
     methods:{
-        callBothApi(){
-            this.callApi('movie')
-            this.callApi('tv')
+        callBothApi(language){
+            this.callApi('movie', language)
+            this.callApi('tv', language)
         },
-        callApi(type){
-            this.myQuery = this.writtenText;
-            axios.get(`${this.apiUrl}/search/${type}/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
+        callApi(type, lang){
+            this.loading = true;
+            axios.get(
+                this.apiUrl + '/search/' + type, {
+                params: {
+                    api_key: this.myApiKey,
+                    query: this.myQuery,
+                    language: lang
+                }
+            })
             .then((res) => {
             console.log(res.data.results)
             // controllo lunghezza
@@ -103,6 +112,7 @@ export default {
                     this.seriesCards = [...res.data.results];
                     break;
             }
+            this.$emit('lastResearch', this.myQuery)
             setTimeout(()=>{
                 this.loading = false;
             }, 500)
@@ -113,27 +123,35 @@ export default {
         },
         checkTitles(a, b){
             return a === b ? false : true;
+        },
+        setLan(lang){
+            this.actualLang = lang
+            this.callBothApi(this.actualLang)
+        },
+        setText(text){
+            this.myQuery = text
+            this.callBothApi(this.actualLang)
         }
         
     },
-    updated(){
-        if(this.myQuery !== this.writtenText){
-            this.loading = true;
-            setTimeout(this.callBothApi, 500)
-        }
-    },
     mounted(){
-        if(this.myDefault){
-            this.loading = true;
-            setTimeout(this.callBothApi, 500)
-        }
-    }
+        this.loading = true;
+        this.myQuery = this.myDefault
+        setTimeout(this.callBothApi, 500)
+        
+        this.$parent.$on('langChange', this.setLan)
+        this.$parent.$on('textChange', this.setText)
+    },
 }
 </script>
 
 <style lang="scss" scoped>
     @import '../assets/style/vars.scss';
 
+    .loader{
+        position: fixed;
+        top: 400px;
+    }
     .wrapper{
         display: flex;
         flex-wrap: wrap;
@@ -161,6 +179,9 @@ export default {
                 text-align: center;
             }
         }
+    }
+    .trigger{
+        display: none;
     }
     
 </style>
