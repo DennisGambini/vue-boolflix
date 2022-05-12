@@ -32,7 +32,7 @@ export default {
         padding: $section-pad;
         background-color: $bg-header;
         background: linear-gradient($bg-header 30%, $bg-body 90%);
-        @include flex-row-between;
+        @include flex-row-between-center;
         h1{
             color: red;
             text-transform: uppercase;

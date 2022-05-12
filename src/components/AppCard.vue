@@ -3,6 +3,7 @@
 
         <img v-if="card.poster_path" :src="imgUrl + '/original' + card.poster_path" 
             :alt="card.original_title + ' poster'">
+        <!-- immagine default on error -->
         <div v-else class="elseImg">
             <h3>{{titleProp}}</h3>
         </div>
@@ -31,10 +32,12 @@
             <div class="vote">
                 <span>Voto: </span>
                 {{card.vote_average}}
-                <span class="stars" v-for="(n, index) in 5" :key="index">
-                    <i v-if="manipulateVote(card.vote_average) >= index + 1" class="active fa-solid fa-star"></i>
-                    <i v-else class="non-active fa-solid fa-star"></i>
-                </span>
+                <div>
+                    <span class="stars" v-for="(n, index) in 5" :key="index">
+                        <i v-if="manipulateVote(card.vote_average) >= index + 1" class="active fa-solid fa-star"></i>
+                        <i v-else class="non-active fa-solid fa-star"></i>
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -86,7 +89,7 @@ export default {
 @import '../assets/style/vars.scss';
 
 .card{
-        @include flex-column-between;
+        @include flex-col-between-center;
         gap: 20px;
         height: 350px;
         width: 250px;
@@ -158,7 +161,7 @@ export default {
         &:hover{
             border: 4px solid rgba($color: $text-color, $alpha: 0.7);
             .description{
-                @include flex-column-center;
+                @include flex-col-center-start;
             }
             .elseImg > h2{
                 display: none;

@@ -1,11 +1,14 @@
+@import './myFlexFramework.scss';
+
 // COLORI
 $bg-body: #141414;
 $bg-header: #000;
 $bg-card: #303030;
-$active-star-color: yellow;
+$active-star-color: rgb(222, 222, 28);
 $non-active-star-color: $bg-card;
 $title-color: #980A11;
 $text-color: #EFEFEF;
+$text-warn: $active-star-color;
 
 // SIZING
 $section-pad: 20px;
@@ -16,25 +19,6 @@ $card-radius: 10px;
 $card-font-size: 0.9rem;
 
 // MIXINS
-
-@mixin flex-row-between {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-@mixin flex-column-between {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-@mixin flex-column-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-}
 @mixin flag-size {
     height: $flag-height;
     width: calc($flag-height * 1.5);

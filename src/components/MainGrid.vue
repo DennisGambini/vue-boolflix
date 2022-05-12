@@ -2,29 +2,44 @@
     <section>
         <app-loader class="loader" v-if="loading" />
 
-        <h2 v-if="writtenText && !loading">{{movies}}</h2>
-        <div v-if="writtenText && !loading" class="wrapper">
-            <app-card class="card" v-for="(card, index) in movieCards" 
-            :key="index" 
-            :card="card" 
-            :imgUrl="imgUrl" 
-            :titleProp="card.title" 
-            :originalTitleProp="card.original_title"
-            :necessary="checkTitles(card.title, card.original_title)"/>
+        <div role="checker" v-if="writtenText && !loading && movieFounded">
+            <h2>{{movies}}</h2>
+            <div class="wrapper">
+                <app-card class="card" v-for="(card, index) in movieCards" 
+                :key="index" 
+                :card="card" 
+                :imgUrl="imgUrl" 
+                :titleProp="card.title" 
+                :originalTitleProp="card.original_title"
+                :necessary="checkTitles(card.title, card.original_title)"/>
+            </div>
+        </div>
+        <div v-else-if="!loading" class="warning">
+            <div>    
+                <h2>nessuna film trovato!</h2>
+                <p>riprova con un altra ricerca</p>
+            </div>
         </div>
 
-        <h2 v-if="writtenText && !loading">{{series}}</h2>
-        <div v-if="writtenText && !loading" class="wrapper">
-            <app-card class="card" v-for="(card, index) in seriesCards" 
-            :key="index" 
-            :card="card" 
-            :imgUrl="imgUrl" 
-            :titleProp="card.name" 
-            :originalTitleProp="card.original_name"
-            :necessary="checkTitles(card.name, card.original_name)"/>
+        <div role="checker" v-if="writtenText && !loading && seriesFounded">
+            <h2>{{series}}</h2>
+            <div class="wrapper">
+                <app-card class="card" v-for="(card, index) in seriesCards" 
+                :key="index" 
+                :card="card" 
+                :imgUrl="imgUrl" 
+                :titleProp="card.name" 
+                :originalTitleProp="card.original_name"
+                :necessary="checkTitles(card.name, card.original_name)"/>
+            </div>
+        </div>
+        <div v-else-if="!loading" class="warning">
+            <div>
+                <h2>nessuna serie trovata!</h2>
+                <p>riprova con un altra ricerca</p>
+            </div>
         </div>
 
-      
     </section>
 </template>
 
@@ -52,7 +67,9 @@ export default {
             myQuery: '',
             movieCards:[],
             seriesCards:[],
-            loading: false
+            loading: false,
+            movieFounded: true,
+            seriesFounded: true
         }
     },
     methods:{
@@ -61,17 +78,18 @@ export default {
             this.callApiSeries();
         },
         callApiMovie(){
-            // this.loading = true;
             this.myQuery = this.writtenText;
             axios.get(`${this.apiUrl}/search/movie/?api_key=${this.myApiKey}&query=${this.myQuery}&language=it-IT`)
             .then((res) => {
             console.log(res.data.results)
             this.movieCards = [...res.data.results]
-            // verifica prima di splittare
             if(this.movieCards.length > this.previewNumber){
                 this.movieCards.splice(this.previewNumber)
             }
-            this.loading = false;
+            this.movieCards.length === 0 ? this.movieFounded = false : this.movieFounded = true;
+            setTimeout(()=>{
+                this.loading = false;
+            }, 500)
             })
             .catch((err) => {
             console.log(err);
@@ -83,11 +101,13 @@ export default {
             .then((res) => {
             console.log(res.data.results)
             this.seriesCards = [...res.data.results]
-            // verifica prima di splittare
             if(this.seriesCards.length > this.previewNumber){
                 this.seriesCards.splice(this.previewNumber)
             }
-            this.loading = false;
+            this.seriesCards.length === 0 ? this.seriesFounded = false : this.seriesFounded = true;
+            setTimeout(()=>{
+                this.loading = false;
+            }, 500)
             })
             .catch((err) => {
             console.log(err);
@@ -101,15 +121,13 @@ export default {
     updated(){
         if(this.myQuery !== this.writtenText){
             this.loading = true;
-            setTimeout(this.callBothApi, 1500)
-            // this.callBothApi()
+            setTimeout(this.callBothApi, 500)
         }
     },
     mounted(){
         if(this.myDefault){
             this.loading = true;
-            setTimeout(this.callBothApi, 1500)
-            // this.callBothApi()
+            setTimeout(this.callBothApi, 500)
         }
     }
 }
@@ -129,6 +147,22 @@ export default {
         text-align: center;
         color: $text-color;
         text-transform: uppercase;
+    }
+    .warning{
+        height: calc(100vh / 2.5);
+        width: calc(100vh / 2.5);
+        background: radial-gradient(circle, $bg-header 0%, $bg-body 60%);
+        margin: 0 auto;
+        @include flex-row-center-center;
+        div{
+            h2{
+                color: $text-warn;
+            }
+            p{
+                color: $text-color;
+                text-align: center;
+            }
+        }
     }
     
 </style>
